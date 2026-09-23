@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ku" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ئەنجام</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"></head>
+<body><div class="shell">
+<header><div><span class="badge">RESULT</span><h1>ئەنجامی شیکردنەوە</h1><p>داتا پاککراوەتەوە و پێشنیاری گواستنەوە دروست کراوە.</p></div></header>
+<div class="stats">
+<div><b>{{summary.rows}}</b><small>ڕیزی داتا</small></div><div><b>{{summary.items}}</b><small>مۆدێل</small></div>
+<div class="warn"><b>{{summary.shortages}}</b><small>کەمبوونەوە</small></div><div class="danger"><b>{{summary.critical}}</b><small>بەتاڵ</small></div>
+<div><b>{{summary.transfers}}</b><small>گواستنەوە</small></div><div><b>{{summary.transfer_qty}}</b><small>کۆی عدد</small></div>
+<div class="depo"><b>{{summary.depo}}</b><small>ڕۆیشتن بۆ DEPO</small></div>
+</div>
+<div class="actions"><a class="button" href="{{url_for('download',token=token)}}">⬇️ دابەزاندنی Excel</a><a href="{{url_for('index')}}">← فایلێکی تر</a></div>
+<section class="card"><h2>🚚 پێشنیاری گواستنەوە</h2>
+<div class="tablewrap"><table><thead><tr><th>کۆد</th><th>جۆر</th><th>ڕەنگ</th><th>ساڵ</th><th>قەبارە</th><th>لە</th><th>بۆ</th><th>عدد</th><th>هۆکار</th></tr></thead><tbody>
+{% for r in transfers %}<tr><td>{{r.code}}</td><td>{{r.family}}</td><td>{{r.color}}</td><td>{{r.year}}</td><td>{{r.size}}</td><td>{{r.from_store}} {{r.from_store_name}}</td><td>{{r.to_store}} {{r.to_store_name}}</td><td><b>{{r.qty}}</b></td><td>{{r.reason}}</td></tr>{% endfor %}
+</tbody></table></div></section>
+<section class="card"><h2>📦 هەموو شیکردنەوەکە</h2>
+<div class="tablewrap"><table><thead><tr><th>کۆد</th><th>جۆر</th><th>ڕەنگ</th><th>ساڵ</th><th>قەبارە</th><th>دوکان</th><th>پارێزگا</th><th>عدد</th><th>سنوور</th><th>دۆخ</th><th>تێبینی</th></tr></thead><tbody>
+{% for r in analysis %}<tr class="{% if r.status.startswith('CRITICAL') %}critical{% elif r.status=='SHORTAGE' %}shortage{% endif %}">
+<td>{{r.code}}</td><td>{{r.family}}</td><td>{{r.color}}</td><td>{{r.year}}</td><td>{{r.size}}</td><td>{{r.store}}</td><td>{{r.province}}</td><td>{{r.qty|int}}</td><td>{{r.threshold}}</td><td>{{r.status}}</td><td>{{r.review_note}}</td></tr>{% endfor %}
+</tbody></table></div></section>
+</div></body></html>

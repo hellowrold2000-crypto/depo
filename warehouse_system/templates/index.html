@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Warehouse Intelligence</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+</head>
+<body>
+<div class="shell">
+<header>
+  <div><span class="badge">SANTORIA</span><h1>Warehouse Intelligence</h1><p>سیستەمی زیرەکی دابەشکردنی ستۆک، کەمبوونەوە و DEPO</p></div>
+  <div class="hero-stat">24<br><small>دوکان</small></div>
+</header>
+<section class="card">
+<h2>📥 فایلەکەت بخە ناو سیستەم</h2>
+<p>پشتیوانی: <b>XLSX</b> · <b>XLS</b> · <b>CSV</b>. ناوی کۆلۆمەکان دەتوانێت کوردی یان ئینگلیزی بێت.</p>
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="file" accept=".xlsx,.xls,.csv" required>
+  <div class="grid">
+    <label>سنووری گشتی (کۆدێکی ئاسایی)
+      <input type="number" name="general_threshold" value="10" min="1">
+    </label>
+    <label>سنووری GM/PN/TS بە پێی قەبارە
+      <input type="number" name="special_threshold" value="3" min="1">
+    </label>
+  </div>
+  <label class="check"><input type="checkbox" name="cross_fallback"> ئەگەر هیچ سەرچاوەیەکی ناوچەکە نەبوو، ڕێگە بدە بە گواستنەوەی فۆری بۆ ناوچەی تر</label>
+  <button>🚀 شیکردنەوە و دروستکردنی Excel</button>
+</form>
+</section>
+<section class="card">
+<h2>🧠 منطقەکە چی دەکات؟</h2>
+<div class="features">
+<div>🔎 ناسینەوەی کۆد و جۆری بەرهەم</div><div>🎨 جیاکردنەوەی ڕەنگ</div><div>📅 جیاکردنەوەی ساڵ</div>
+<div>📏 GM/PN/TS بە قەبارە</div><div>🏬 گواستنەوەی ناوخۆی ناوچە</div><div>🏢 DEPO بۆ کەمبوونی سەرچاوە</div>
+</div>
+</section>
+<section class="card">
+<h2>🏪 24 دوکان</h2><div class="store-list">{% for code,(prov,name) in stores.items() %}<span><b>{{code}}</b> — {{prov}} — {{name}}</span>{% endfor %}</div>
+</section>
+{% with messages=get_flashed_messages() %}{% if messages %}<div class="alert">{{ messages[0] }}</div>{% endif %}{% endwith %}
+</div></body></html>
